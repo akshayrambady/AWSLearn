@@ -1,0 +1,34 @@
+#!/bin/bash
+
+############################################################
+#Author : Akshay 
+#Version : V0.1
+#
+#Scope : This shell script is set to run daily to track aws resource active / inuse and sore it in the folder named "trackerData"
+############################################################
+#
+#
+#
+#Major takeaway : Don't use relative paths in scripts (especially in cron)
+#
+
+
+#storing the path of log file in a variable for reuse
+VAR="/home/akshay/AWSlearning/trackerData"
+
+#To run the script on e=error  o=pipeline failure x=execution mode
+set -eoux pipefail
+
+#Instance ID of active ec2 instances
+aws ec2 describe-instances | jq .Reservations[].Instances[].InstanceId > "$VAR"
+
+#List the active s3 buckets
+aws s3 ls >> "$VAR"
+
+#List the active IAM users
+aws iam list-users >> "$VAR"
+
+#List the active Lambda
+aws lambda list-functions >> "$VAR"
+
+
