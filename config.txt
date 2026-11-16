@@ -1,1 +1,1 @@
-Original configuration
+Modified configuration from feature
